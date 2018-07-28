@@ -1,7 +1,6 @@
 # BASHWeather
 
-Usage:
-    Obtain a API key from weather underground and set the API_Key variable equal to it.
-    Zip code is needed to find location, the program will ask for it, unless you pass it as a sys arg. i.e. #python3 BASHWeather.py 12345
-    
- I included quite a few more variables than are displayed as output to make customization easier.
+Usage: Obtain a API key from weather underground and set WU_APIkey variable equal to it. 
+Obtain a API key from ipstack.com and set geo_APIkey variable equal to it.
+
+Program Defaults to IP geolocation, unless you pass ZIP code as a sys arg. i.e. #python3 BASHWeather.py 12345

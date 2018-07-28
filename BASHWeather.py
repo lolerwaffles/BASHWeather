@@ -1,6 +1,6 @@
 import urllib,json,pandas,sys
 
-API_Key = ''#use your WeatherUnderground API key here
+WU_APIkey = ''#use your WeatherUnderground API key here
 geo_APIkey = '' #user your https://ipstack.com/ API key here
 
 #if sysarg doesn't contain ZIPcode, falls back to geolocation
@@ -18,7 +18,7 @@ zip_code = sys.argv[1] if len(sys.argv) > 1 else geo_zip
 #We really don't need all these variables to be pulled, but hey you might want them for the dislplay
 
 #forcast for the current day
-with urllib.request.urlopen(f'http://api.wunderground.com/api/{API_Key}/forecast/q/{zip_code}.json') as url:
+with urllib.request.urlopen(f'http://api.wunderground.com/api/{WU_APIkey}/forecast/q/{zip_code}.json') as url:
     current = json.loads(url.read().decode())
     
 forcastRain = current['forecast']['simpleforecast']['forecastday'][0]['qpf_allday']['in'] 
@@ -30,7 +30,7 @@ forcastSnow = current['forecast']['simpleforecast']['forecastday'][0]['snow_alld
 forcastHumidity = current['forecast']['simpleforecast']['forecastday'][0]['avehumidity']
 
 #current conditions
-with urllib.request.urlopen(f"http://api.wunderground.com/api/{API_Key}/conditions/q/{zip_code}.json") as url:
+with urllib.request.urlopen(f"http://api.wunderground.com/api/{WU_APIkey}/conditions/q/{zip_code}.json") as url:
     conditions = json.loads(url.read().decode())
     
 current1hrRain = conditions['current_observation']['precip_1hr_in']
@@ -41,7 +41,7 @@ currentHumidity = conditions['current_observation']['relative_humidity']
 currentLocation = conditions['current_observation']['display_location']['full']
 
 #historical conditions, because its fun
-with urllib.request.urlopen(f"http://api.wunderground.com/api/{API_Key}/almanac/q/{zip_code}.json") as url:
+with urllib.request.urlopen(f"http://api.wunderground.com/api/{WU_APIkey}/almanac/q/{zip_code}.json") as url:
     almanac = json.loads(url.read().decode())
 
 normalHigh = almanac['almanac']['temp_high']['normal']['F']

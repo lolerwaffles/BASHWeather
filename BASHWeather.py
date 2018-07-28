@@ -1,7 +1,19 @@
 import urllib,json,pandas,sys
 
-zip_code = sys.argv[1] if len(sys.argv) > 1 else input("What is your ZIP code?\n")
 API_Key = ''#use your WeatherUnderground API key here
+geo_APIkey = '' #user your https://ipstack.com/ API key here
+
+#if sysarg doesn't contain ZIPcode, falls back to geolocation
+with urllib.request.urlopen("http://ip.jsontest.com/") as url:
+    ip = json.loads(url.read().decode())
+    ip = ip['ip']
+
+with urllib.request.urlopen(f'http://api.ipstack.com/{ip}?access_key={geo_APIkey}&format=1.json') as url:
+    geo_zip = json.loads(url.read().decode())
+geo_zip = geo_zip['zip']
+
+zip_code = sys.argv[1] if len(sys.argv) > 1 else geo_zip
+
 
 #We really don't need all these variables to be pulled, but hey you might want them for the dislplay
 
@@ -40,7 +52,7 @@ recordLow = almanac['almanac']['temp_low']['record']['F']
 recordLowYear = almanac['almanac']['temp_low']['recordyear']
 
 #output to screen
-print('The current tempatue is {}° in {} with {}in of rain expected and a humity level of {}%\n'.format(currentTemp, currentLocation, forcastRain, currentHumidity))
+print('The current tempatue is {}° in {} with {}in of rain expected and a humity level of {}\n'.format(currentTemp, currentLocation, forcastRain, currentHumidity))
 print('Winds are currently {}mph from {}\n'.format(currentWindSP, currentWindDir))
 
 tempHiSwitch ='above' if int(forcastHigh) >= int(normalHigh) else 'below'
